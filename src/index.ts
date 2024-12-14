@@ -93,9 +93,9 @@ export default function (api: IApi) {
         credentials: true,
       }),
       require('compression')(),
-      require('connect-history-api-fallback')({
-        index: '/',
-      }),
+      ...(api.config.mako.disableConnectHistoryApiFallback
+        ? []
+        : [require('connect-history-api-fallback')({ index: '/' })]),
       express.static(outputPath),
     ];
   });
